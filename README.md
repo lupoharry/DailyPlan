@@ -2,6 +2,10 @@
 
 Daylight is a calm, responsive journaling app for recording a daily entry, tracking a mood, and revisiting personal reflections. It runs in the browser with no server, framework, or build step.
 
+## Home screen
+
+![Daylight home dashboard](./assets/daylight-home.png)
+
 ## Features
 
 - Dashboard with entry count, writing streak, average and most common mood, the latest seven days, and recent entries.
@@ -39,6 +43,7 @@ Daylight is a calm, responsive journaling app for recording a daily entry, track
 │   ├── calendar.js
 │   └── utils.js
 └── assets/
+    ├── daylight-home.png
     └── icons/
         └── daylight.svg
 ```
