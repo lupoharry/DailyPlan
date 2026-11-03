@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="A calm space for daily journaling and mood tracking.">
+  <title>Daylight — your daily journal</title>
+  <link rel="icon" href="assets/icons/daylight.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" data-page="dashboard" aria-label="Daylight home">
+        <span class="brand-mark" aria-hidden="true">✦</span><span>daylight</span>
+      </a>
+      <div class="sidebar-label">YOUR SPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-page="dashboard"><span class="nav-icon">⌂</span>Overview</button>
+        <button class="nav-link" data-page="journals"><span class="nav-icon">▤</span>My journal</button>
+        <button class="nav-link" data-page="calendar"><span class="nav-icon">▦</span>Calendar</button>
+        <button class="nav-link" data-page="settings"><span class="nav-icon">⚙</span>Data &amp; settings</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-note"><span class="note-spark">✧</span><p>A little reflection can make a big difference.</p></div>
+        <div class="profile"><div class="avatar">D</div><div><strong>Your journal</strong><small>Personal space</small></div><span class="profile-more">···</span></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="mobile-header">
+        <a class="brand" href="#" data-page="dashboard"><span class="brand-mark">✦</span><span>daylight</span></a>
+      </header>
+      <div class="page-container">
+        <section class="page active" id="page-dashboard" aria-labelledby="dashboard-title">
+          <div class="page-heading dashboard-heading">
+            <div><p class="eyebrow" id="current-date"></p><h1 id="dashboard-title">Good evening<span class="heading-period">.</span></h1><p class="muted">Take a moment to reflect on your day.</p></div>
+            <button class="button button-primary" id="header-new-entry"><span>＋</span> Write an entry</button>
+          </div>
+          <section class="welcome-card">
+            <div class="welcome-copy"><span class="welcome-kicker">A MOMENT FOR YOU</span><h2>How was your day?</h2><p>Capture your thoughts, notice your feelings, and make space for what matters.</p><button class="button button-light" id="today-entry-button">＋ Add today's journal</button></div>
+            <div class="welcome-art" aria-hidden="true"><div class="sun-halo"></div><div class="sun">☼</div><div class="art-caption">one day at a time</div></div>
+          </section>
+          <div class="section-title-row"><div><p class="eyebrow">YOUR JOURNEY</p><h2>At a glance</h2></div></div>
+          <div class="stats-grid" id="stats-grid"></div>
+          <div class="dashboard-grid">
+            <section class="surface-card mood-week-card"><div class="card-heading"><div><h3>Your mood this week</h3><p class="muted small">A little check-in, day by day</p></div><span class="heading-icon">☼</span></div><div id="mood-week" class="mood-week"></div></section>
+            <section class="surface-card recent-card"><div class="card-heading"><div><h3>Recent reflections</h3><p class="muted small">Your latest moments</p></div><button class="text-button" data-page="journals">View all <span>→</span></button></div><div id="recent-entries" class="recent-list"></div></section>
+          </div>
+        </section>
+
+        <section class="page" id="page-journals" aria-labelledby="journals-title">
+          <div class="page-heading"><div><p class="eyebrow">YOUR PERSONAL ARCHIVE</p><h1 id="journals-title">My journal</h1><p class="muted">Your thoughts, memories, and reflections.</p></div><button class="button button-primary" data-action="new-entry">＋ New entry</button></div>
+          <div class="surface-card journal-browser">
+            <div class="filter-row">
+              <label class="search-field"><span aria-hidden="true">⌕</span><input id="journal-search" type="search" placeholder="Search your journal..." aria-label="Search journal entries"></label>
+              <input class="filter-control" id="filter-date" type="date" aria-label="Filter by date">
+              <input class="filter-control" id="filter-month" type="month" aria-label="Filter by month">
+              <select class="filter-control" id="filter-mood" aria-label="Filter by mood"><option value="">All moods</option></select>
+              <select class="filter-control sort-control" id="sort-order" aria-label="Sort entries"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select>
+            </div>
+            <div class="results-caption" id="results-caption"></div>
+            <div id="journal-list" class="journal-list"></div>
+          </div>
+        </section>
+
+        <section class="page" id="page-editor" aria-labelledby="editor-heading">
+          <div class="page-heading editor-heading"><div><p class="eyebrow">A SPACE TO REFLECT</p><h1 id="editor-heading">A new page</h1><p class="muted">There’s no right way to write. Just begin.</p></div><button class="button button-quiet" id="editor-cancel">← Back</button></div>
+          <form id="journal-form" class="editor-layout" novalidate>
+            <div class="editor-main surface-card">
+              <div class="field-group"><label for="entry-date">Journal date</label><input id="entry-date" name="date" type="date" required></div>
+              <div class="field-group title-field"><label for="entry-title">Give your day a title</label><input id="entry-title" name="title" type="text" maxlength="100" placeholder="A productive day at work" required></div>
+              <div class="field-group"><span class="field-label">How are you feeling today?</span><div id="mood-picker" class="mood-picker" role="group" aria-label="Choose your mood"></div><input id="entry-mood" type="hidden" required></div>
+              <div class="field-group content-field"><label for="entry-content">Your thoughts</label><textarea id="entry-content" name="content" placeholder="What happened today? What are you thinking about? Write freely..." required></textarea><div class="textarea-footer"><span>Take your time. This is just for you.</span><span id="character-count">0 characters</span></div></div>
+              <details class="reflection-details"><summary>Gentle prompts <span>Optional reflections to help you begin</span></summary><div class="reflection-grid">
+                <label>What went well today?<textarea name="wentWell" rows="2" placeholder="A small win counts, too..."></textarea></label>
+                <label>What could have been better?<textarea name="couldImprove" rows="2" placeholder="No judgment, just noticing..."></textarea></label>
+                <label>What are you grateful for?<textarea name="gratitude" rows="2" placeholder="Something or someone you appreciate..."></textarea></label>
+                <label>What did you learn today?<textarea name="learned" rows="2" placeholder="A new insight, big or small..."></textarea></label>
+              </div></details>
+              <div class="form-actions"><button class="button button-quiet" type="button" id="clear-form">Clear form</button><div><button class="button button-quiet" type="button" id="editor-cancel-bottom">Cancel</button><button class="button button-primary" type="submit" id="save-entry">Save journal <span>→</span></button></div></div>
+            </div>
+            <aside class="editor-aside"><div class="aside-tip"><span>✦</span><h3>Make it yours</h3><p>Your journal is saved only in this browser. Write honestly and come back whenever you need.</p></div><div class="aside-tip aside-tip-soft"><span>☁</span><h3>There’s no perfect entry</h3><p>A few words, a whole story, or even a list. Any reflection is a good one.</p></div></aside>
+          </form>
+        </section>
+
+        <section class="page" id="page-calendar" aria-labelledby="calendar-title">
+          <div class="page-heading"><div><p class="eyebrow">LOOK BACK, GENTLY</p><h1 id="calendar-title">Your calendar</h1><p class="muted">Every entry is a moment you made time for yourself.</p></div><button class="button button-primary" data-action="new-entry">＋ New entry</button></div>
+          <div class="calendar-layout"><section class="surface-card calendar-card"><div class="calendar-toolbar"><button class="icon-button" id="calendar-prev" aria-label="Previous month">←</button><h2 id="calendar-month-label"></h2><button class="icon-button" id="calendar-next" aria-label="Next month">→</button><button class="text-button calendar-today" id="calendar-today">Today</button></div><div class="calendar-grid" id="calendar-grid"></div><div class="calendar-legend"><span><i class="legend-dot"></i>Journal entry</span><span>Choose a day to write or read</span></div></section><aside class="surface-card calendar-side"><p class="eyebrow">THIS MONTH</p><h3 id="calendar-summary-title"></h3><p id="calendar-summary" class="muted"></p><div id="calendar-month-entries"></div></aside></div>
+        </section>
+
+        <section class="page" id="page-settings" aria-labelledby="settings-title">
+          <div class="page-heading"><div><p class="eyebrow">YOUR SPACE, YOUR CHOICE</p><h1 id="settings-title">Data & settings</h1><p class="muted">Your journal belongs to you. Manage your data anytime.</p></div></div>
+          <div class="settings-grid">
+            <section class="surface-card settings-card"><div class="settings-icon">⇧</div><div><h2>Export your journal</h2><p class="muted">Download all your entries as a JSON file for safekeeping or transfer.</p><button class="button button-secondary" id="export-data">Export entries</button></div></section>
+            <section class="surface-card settings-card"><div class="settings-icon">⇩</div><div><h2>Import entries</h2><p class="muted">Restore a previous export. Entries with matching dates will be updated.</p><label class="button button-secondary file-button">Choose JSON file<input type="file" id="import-file" accept="application/json,.json"></label></div></section>
+            <section class="surface-card settings-card danger-card"><div class="settings-icon">⌫</div><div><h2>Clear all journal data</h2><p class="muted">Permanently remove every entry stored in this browser. This cannot be undone.</p><button class="button button-danger" id="clear-all-data">Clear all data</button></div></section>
+          </div>
+          <p class="privacy-note"><span>♧</span> Your entries are stored locally in this browser and are never sent to a server. Clearing browser data will also remove your journal, so consider exporting a backup.</p>
+        </section>
+
+        <section class="page" id="page-detail" aria-labelledby="detail-title">
+          <div class="page-heading detail-top"><button class="button button-quiet" id="detail-back">← Back to journal</button><div class="detail-actions"><button class="button button-secondary" id="detail-edit">Edit entry</button><button class="button button-danger-quiet" id="detail-delete">Delete</button></div></div>
+          <article id="journal-detail" class="detail-article surface-card"></article>
+        </section>
+      </div>
+      <footer class="app-footer">Made for a little more self-understanding <span>✦</span></footer>
+    </main>
+  </div>
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/mood.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/journal.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
