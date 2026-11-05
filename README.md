@@ -710,3 +710,214 @@ IMPORTANT: Do not stop after creating the HTML and CSS. Implement the complete J
 Before finishing, verify that every requested feature works.
 
 The final result should look and feel like a polished, modern personal journaling product that someone would genuinely enjoy using every day.
+
+#
+# 12. GitHub Repository & Documentation Standards
+
+IMPORTANT: The project must be structured as a professional, GitHub-ready repository.
+
+
+Create the following GitHub and documentation files.
+
+## Repository documentation
+
+### README.md
+Create a professional project README containing:
+
+- Project name and description.
+- Attractive project introduction.
+- Feature overview.
+- Screenshots section (placeholders initially).
+- Technology stack.
+- Application features.
+- Project folder structure.
+- Installation and setup instructions.
+- How to run locally using VS Code Live Server.
+- Local Storage explanation.
+- Data backup and restore instructions.
+- Browser compatibility.
+- Privacy information.
+- Roadmap.
+- License information.
+- Contribution guidelines.
+
+### LICENSE
+Create an MIT License.
+
+Use a configurable copyright holder placeholder rather than inventing an author or company name.
+
+### CONTRIBUTING.md
+Document how to contribute:
+
+- Development environment setup.
+- Coding conventions.
+- Folder and file organization.
+- Branch naming conventions.
+- Commit message conventions.
+- Bug reporting.
+- Feature proposals.
+- Pull request process.
+- Testing expectations.
+
+### CODE_OF_CONDUCT.md
+Use the Contributor Covenant Code of Conduct.
+
+### SECURITY.md
+Include:
+
+- How to report security vulnerabilities.
+- Supported project versions.
+- Security considerations.
+- Local Storage security limitations.
+- Responsible disclosure guidelines.
+
+Do not invent a security contact email. Use a clearly marked placeholder.
+
+### SUPPORT.md
+Explain how users can:
+
+- Report bugs.
+- Request features.
+- Find documentation.
+- Get assistance.
+
+### CHANGELOG.md
+Use Keep a Changelog conventions and Semantic Versioning.
+
+Start with version 1.0.0 and an initial release section.
+
+### .gitignore
+Include sensible exclusions for:
+
+- OS-generated files.
+- Editor settings where appropriate.
+- Temporary files.
+- Logs.
+- Build artifacts.
+- Environment files.
+- Dependencies if introduced later.
+
+Do not ignore any required application source files.
+
+### .editorconfig
+Define consistent editor settings:
+
+- UTF-8 encoding.
+- LF line endings.
+- Two-space indentation.
+- Final newline.
+- Trailing whitespace removal.
+
+### .gitattributes
+Define consistent text file handling and line endings.
+
+### .nojekyll
+Include this file to support deployment through GitHub Pages without Jekyll processing.
+
+## GitHub-specific files
+
+Create:
+
+.github/CONTRIBUTING.md
+
+Create issue templates:
+
+- .github/ISSUE_TEMPLATE/bug_report.md
+- .github/ISSUE_TEMPLATE/feature_request.md
+
+Create:
+
+- .github/PULL_REQUEST_TEMPLATE.md
+
+The bug report template should request:
+- Description.
+- Steps to reproduce.
+- Expected behavior.
+- Actual behavior.
+- Browser and operating system.
+- Screenshots or console errors.
+
+The feature request template should request:
+- Problem to solve.
+- Proposed solution.
+- Expected user benefit.
+- Optional screenshots or examples.
+
+## GitHub Actions
+
+Create:
+
+.github/workflows/validate.yml
+
+Implement a lightweight validation workflow that:
+
+- Runs on pushes and pull requests.
+- Checks HTML validity where practical.
+- Performs JavaScript syntax checks.
+- Checks for obvious broken references where practical.
+- Does not require a backend.
+- Does not introduce unnecessary dependencies.
+
+Use a suitable GitHub Actions workflow and document how it works.
+
+## Additional technical documentation
+
+Create the docs folder with:
+
+### docs/ARCHITECTURE.md
+Document:
+- Application architecture.
+- JavaScript modules.
+- Navigation approach.
+- Data flow.
+- Local Storage integration.
+- UI component structure.
+
+### docs/DATA_MODEL.md
+Document:
+- Journal entry structure.
+- Mood model.
+- Reflection model.
+- Unique ID strategy.
+- Date uniqueness.
+- Storage key.
+- Import/export JSON format.
+
+### docs/USER_GUIDE.md
+Explain:
+- Creating journal entries.
+- Editing previous entries.
+- Selecting past and future dates.
+- Tracking moods.
+- Using the calendar.
+- Searching and filtering.
+- Exporting and importing data.
+- Managing stored data.
+
+## GitHub repository quality standards
+
+- Use clear, professional Markdown.
+- Include useful headings and navigation links.
+- Use relative links between documentation files.
+- Avoid empty documentation files.
+- Avoid unnecessary boilerplate.
+- Ensure all referenced files actually exist.
+- Keep documentation consistent with implemented functionality.
+- Never claim a feature exists if it has not been implemented.
+- Keep all documentation aligned with the actual application.
+
+## Final GitHub readiness checklist
+
+Before finishing:
+
+1. Verify the complete folder structure.
+2. Verify every Markdown file renders correctly.
+3. Verify all internal documentation links.
+4. Verify the MIT License.
+5. Verify issue and pull request templates.
+6. Verify the GitHub Actions workflow syntax.
+7. Verify JavaScript files contain no syntax errors.
+8. Verify the application still works locally.
+9. Verify the repository can be published through GitHub Pages.
+
+The final deliverable must be a complete application and a professional, maintainable GitHub repository.
