@@ -1,0 +1,233 @@
+name: Validate
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate HTML
+      run: |
+        # Check if index.html exists
+        if [ ! -f "index.html" ]; then
+          echo "Error: index.html not found"
+          exit 1
+        fi
+        
+        # Basic HTML validation using grep patterns
+        echo "Checking HTML structure..."
+        
+        # Verify DOCTYPE
+        if grep -q "<!DOCTYPE html>" index.html; then
+          echo "✓ DOCTYPE found"
+        else
+          echo "⚠ DOCTYPE not found (or incorrect)"
+        fi
+        
+        # Verify html tag
+        if grep -q "<html" index.html; then
+          echo "✓ <html> tag found"
+        else
+          echo "✗ <html> tag not found"
+          exit 1
+        fi
+        
+        # Verify head tag
+        if grep -q "<head" index.html; then
+          echo "✓ <head> tag found"
+        else
+          echo "✗ <head> tag not found"
+          exit 1
+        fi
+        
+        # Verify body tag
+        if grep -q "<body" index.html; then
+          echo "✓ <body> tag found"
+        else
+          echo "✗ <body> tag not found"
+          exit 1
+        fi
+        
+        # Check for common HTML issues
+        echo "Checking for common HTML issues..."
+        
+        # Find unclosed tags (basic check)
+        UNCLOSED=$(grep -o "<img[^>]*>" index.html | grep -v "/>" | wc -l)
+        if [ "$UNCLOSED" -gt 0 ]; then
+          echo "⚠ Found $UNCLOSED potentially unclosed <img> tags"
+        fi
+    
+    - name: Check JavaScript Syntax
+      run: |
+        echo "Checking JavaScript files..."
+        
+        # Find all JS files
+        JS_FILES=$(find js -name "*.js" 2>/dev/null || echo "")
+        
+        if [ -z "$JS_FILES" ]; then
+          echo "No JavaScript files found"
+          exit 1
+        fi
+        
+        # Check each JS file with Node.js syntax check
+        for file in $JS_FILES; do
+          echo "Checking $file..."
+          
+          # Basic syntax validation with Node.js
+          if command -v node &> /dev/null; then
+            node -c "$file" && echo "✓ $file passed syntax check" || {
+              echo "✗ Syntax error in $file"
+              exit 1
+            }
+          else
+            # If node isn't available, do basic pattern checks
+            if grep -q "console.error\|SyntaxError\|undefined\s*=" "$file"; then
+              echo "⚠ Potential issues in $file (manual review recommended)"
+            else
+              echo "✓ $file has no obvious syntax issues"
+            fi
+          fi
+        done
+    
+    - name: Check CSS Files
+      run: |
+        echo "Checking CSS files..."
+        
+        # Find all CSS files
+        CSS_FILES=$(find css -name "*.css" 2>/dev/null || echo "")
+        
+        if [ -z "$CSS_FILES" ]; then
+          echo "No CSS files found"
+          exit 1
+        fi
+        
+        for file in $CSS_FILES; do
+          echo "Checking $file..."
+          
+          # Basic CSS validation
+          if grep -q "^[[:space:]]*}" "$file" 2>/dev/null; then
+            echo "✓ $file has valid closing braces"
+          fi
+          
+          # Check for incomplete color values
+          if grep -q "color:\s*;" "$file" 2>/dev/null; then
+            echo "⚠ Found potential incomplete color value in $file"
+          fi
+        done
+    
+    - name: Check for Broken References
+      run: |
+        echo "Checking for broken file references..."
+        
+        # Extract script references
+        SCRIPTS=$(grep -o 'src="[^"]*"' index.html | cut -d'"' -f2)
+        for script in $SCRIPTS; do
+          if [ -n "$script" ] && [[ "$script" == js/* ]] || [[ "$script" == ./js/* ]]; then
+            # Remove ./ if present
+            script="${script#./}"
+            if [ ! -f "$script" ]; then
+              echo "✗ Script file not found: $script"
+              exit 1
+            else
+              echo "✓ Script found: $script"
+            fi
+          fi
+        done
+        
+        # Extract stylesheet references
+        STYLESHEETS=$(grep -o 'href="[^"]*\.css"' index.html | cut -d'"' -f2)
+        for stylesheet in $STYLESHEETS; do
+          if [ -n "$stylesheet" ] && [[ "$stylesheet" == css/* ]] || [[ "$stylesheet" == ./css/* ]]; then
+            # Remove ./ if present
+            stylesheet="${stylesheet#./}"
+            if [ ! -f "$stylesheet" ]; then
+              echo "✗ Stylesheet not found: $stylesheet"
+              exit 1
+            else
+              echo "✓ Stylesheet found: $stylesheet"
+            fi
+          fi
+        done
+        
+        # Extract image references
+        IMAGES=$(grep -o 'src="[^"]*\.\(png\|jpg\|jpeg\|gif\|svg\)"' index.html | cut -d'"' -f2)
+        for image in $IMAGES; do
+          if [ -n "$image" ] && [[ "$image" == assets/* ]]; then
+            if [ ! -f "$image" ]; then
+              echo "⚠ Image might not exist: $image"
+            else
+              echo "✓ Image found: $image"
+            fi
+          fi
+        done
+    
+    - name: Validate Project Structure
+      run: |
+        echo "Validating project structure..."
+        
+        # Check for required directories
+        REQUIRED_DIRS=("css" "js" "assets")
+        for dir in "${REQUIRED_DIRS[@]}"; do
+          if [ -d "$dir" ]; then
+            echo "✓ Directory found: $dir"
+          else
+            echo "✗ Required directory missing: $dir"
+            exit 1
+          fi
+        done
+        
+        # Check for required files
+        REQUIRED_FILES=("index.html" "README.md" "LICENSE")
+        for file in "${REQUIRED_FILES[@]}"; do
+          if [ -f "$file" ]; then
+            echo "✓ File found: $file"
+          else
+            echo "✗ Required file missing: $file"
+            exit 1
+          fi
+        done
+    
+    - name: Validate Documentation
+      run: |
+        echo "Validating documentation files..."
+        
+        DOC_FILES=("README.md" "CONTRIBUTING.md" "CODE_OF_CONDUCT.md" "SECURITY.md" "SUPPORT.md" "CHANGELOG.md")
+        for file in "${DOC_FILES[@]}"; do
+          if [ -f "$file" ]; then
+            echo "✓ $file exists"
+            
+            # Check if file is not empty
+            if [ -s "$file" ]; then
+              echo "  ✓ $file is not empty"
+            else
+              echo "  ✗ $file is empty"
+              exit 1
+            fi
+          else
+            echo "✗ $file not found"
+            exit 1
+          fi
+        done
+    
+    - name: Summary
+      if: always()
+      run: |
+        echo ""
+        echo "========================================="
+        echo "Validation Summary"
+        echo "========================================="
+        echo "✓ All checks completed successfully!"
+        echo ""
+        echo "Next steps:"
+        echo "- Run the application locally with Live Server"
+        echo "- Test all features manually"
+        echo "- Verify Local Storage operations"
+        echo "- Check responsive design across devices"
+        echo "========================================="

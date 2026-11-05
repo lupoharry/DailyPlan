@@ -1,0 +1,48 @@
+# OS-generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-workspace
+.sublime-project
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+*.backup
+
+# Build artifacts
+dist/
+build/
+*.min.js
+*.min.css
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Node modules (if ever introduced)
+node_modules/
+package-lock.json
+yarn.lock
+
+# IDE-specific files
+.vs/
+.vscode/settings.json
+.vscode/extensions.json
+
+# OS-specific
+.AppleDouble
+.LSOverride
