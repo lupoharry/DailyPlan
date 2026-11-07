@@ -1,4 +1,4 @@
-# 🌙 Daylight — Daily Journal with Mood Tracker
+# ☀️ Daylight — Daily Journal with Mood Tracker
 
 A calm, responsive journaling application for recording daily thoughts, tracking mood, and revisiting personal reflections. Runs entirely in your browser with no server, backend, or account required. Your data is yours—stored locally and never sent anywhere.
 
